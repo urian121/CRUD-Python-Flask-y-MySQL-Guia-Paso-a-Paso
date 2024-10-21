@@ -4,6 +4,13 @@
 ### Python ###
 # Byte-compiled / optimized / DLL files
 __pycache__/
+/app/__pycache__
+.env
+env/
+venv/
+env*
+.vscode
+
 *.py[cod]
 *$py.class
 

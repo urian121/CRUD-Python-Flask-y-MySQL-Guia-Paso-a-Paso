@@ -1,15 +1,33 @@
 from flask import Blueprint
 from Controllers.empleado_controller import listar_empleados, agregar_empleado
 
-empleado_bp = Blueprint('empleado', __name__)
 
-# Rutas
-@empleado_bp.route('/')
+
+# Creando mi Decorador para el Home
+@app.route('/')
+def hello():
+    return 'Hello, World!'
+
+    
+@app.route('/')
 def index():
+    # return render_template('index.html')
     return listar_empleados()
 
-@empleado_bp.route('/crear', methods=['GET', 'POST'])
+@app.route('/crear', methods=['GET', 'POST'])
 def crear():
     return agregar_empleado()
 
-# Otras rutas como actualizar y eliminar irán aquí...
+@app.route('/editar/<int:id>', methods=['GET', 'POST'])
+def editar(id):
+    return actualizar_empleado(id)
+
+@app.route('/eliminar/<int:id>')
+def eliminar(id):
+    return eliminar_empleado(id)
+
+
+#Redireccionando cuando la página no existe
+@app.errorhandler(404)
+def not_found(error):
+        return redirect(url_for('inicio'))

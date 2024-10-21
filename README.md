@@ -1,307 +1,175 @@
 # CRUD con Python 🐍 Flask y MySQL - Guía Paso a Paso 🚀
 
-En este proyecto, aprenderás a desarrollar un sistema **CRUD** desde cero utilizando Python 🐍, Flask y MySQL. Este curso te guiará a través de la creación de aplicaciones interactivas y eficientes, permitiéndote gestionar datos con facilidad.
+En este proyecto, aprenderás a desarrollar un sistema **CRUD** utilizando Python 🐍, Flask y MySQL. Esta guía te llevará paso a paso en la creación de aplicaciones interactivas, con la capacidad de gestionar empleados de manera eficiente.
 
-Acciones más comunes:
+## Funcionalidades Principales:
 
 - **Crear**: Añadir nuevos empleados.
-- **Leer**: Consultar la información de los empleados.
-- **Actualizar**: Modificar los datos de un empleado existente.
+- **Leer**: Consultar información de empleados.
+- **Actualizar**: Modificar datos de empleados existentes.
 - **Eliminar**: Borrar registros de empleados.
 
-Además, te mostraremos:
-- Cómo establecer la **conexión entre Python y MySQL**.
-- Crear un **panel de administrador**
-- Crear un **panel para el empleado**
-- Gestionar roles y permisos.
-- Generar reportes en Excel y mucho más.
-
-¡Te invitamos a quedarte hasta el final y descubrir cómo lograr todo esto y convertirte en un desarrollador senior con Python y Flask! **No olvides apoyar el proyecto dejando tu estrella en el repositorio**.
+### Otros aspectos cubiertos:
+- Establecer la **conexión entre Python y MySQL**.
+- Crear un **panel de administración** y un **panel para empleados**.
+- Gestionar **roles y permisos**.
+- Generar **reportes en Excel**.
+- ¡Y mucho más!
 
 ## Requisitos
 
-- Python 3.x
-- MySQL
-- pip (Python package installer)
+- Python 3.x (Descárgalo desde [aquí](https://www.python.org/downloads/)).
+  - Asegúrate de marcar la casilla **Add Python 3.x to PATH** al instalar.
+- MySQL (Gestor de Base de Datos Relacional) (Descárgalo desde [aquí](https://dev.mysql.com/downloads/installer/)).
+- `pip` (Instalador de paquetes de Python) (Descárgalo desde [aquí](https://pypi.org/project/pip/)).
 
+## Verificar versiones:
 
-## Pasos para crear el proyecto desde 0
+- **Python**:
+  ```bash
+  python --version   # En Windows
+  python3 --version  # En Mac/Linux
+  ```
 
-1. Crear un entorno virtual
+- **Pip**:
+  ```bash
+  pip --version   # En Windows
+  pip3 --version  # En Mac/Linux
+  ```
 
-Abre tu terminal y navega hasta la carpeta de tu proyecto. Luego, ejecuta uno de los siguientes comandos:
-En Windows:
+## Actualizar `pip`
+Es recomendable mantener `pip` actualizado. Ejecuta el siguiente comando según tu sistema operativo:
 
-bash
+- **Windows**:
+  ```bash
+  python -m pip install --upgrade pip
+  ```
 
-python -m venv venv
+- **Mac/Linux**:
+  ```bash
+  python3 -m pip install --upgrade pip
+  ```
 
-En macOS y Linux:
+## Preparación del entorno de desarrollo
 
-bash
+### Paso 1: Crear un entorno virtual
 
-python3 -m venv venv
+- **Opción 1**: Usar `virtualenv` (Instalarlo si no lo tienes).
+  ```bash
+  pip install virtualenv    # Instalar virtualenv
+  virtualenv env            # Crear el entorno virtual
+  ```
 
-Esto creará un directorio llamado venv en tu carpeta de proyecto que contendrá el entorno virtual.
-2. Activar el entorno virtual
+- **Opción 2**: Usar el módulo `venv` que viene por defecto en Python.
+  ```bash
+  python -m venv env        # En Windows
+  python3 -m venv env       # En Mac/Linux
+  ```
 
-Después de crear el entorno virtual, necesitas activarlo:
-En Windows:
+### Paso 2: Activar el entorno virtual
 
-bash
+- **Windows**:
+  ```bash
+  . env/Scripts/activate
+  ```
 
-venv\Scripts\activate
+- **Mac/Linux**:
+  ```bash
+  source env/bin/activate
+  ```
 
-En macOS y Linux:
+Cuando el entorno esté activo, verás el nombre del entorno virtual al inicio de la línea de comandos, por ejemplo: `(env) C:\ruta\proyecto>`.
 
-bash
-
-source venv/bin/activate
-
-3. Desactivar el entorno virtual
-
-Cuando termines de trabajar en el entorno virtual, puedes desactivarlo con el siguiente comando:
-
-bash
-
-deactivate
-
-4. Verificar la activación del entorno virtual
-
-Una vez activado, deberías ver el nombre del entorno virtual (en este caso, venv) al inicio de la línea de comandos:
-
-mathematica
-
-(venv) C:\ruta\al\proyecto>
-
-Esto indica que el entorno virtual está activo y cualquier paquete que instales usando pip se instalará en este entorno, en lugar de en el sistema global.
-
-
-### 1. Configura el entorno de desarrollo
-
-#### 1.1. Instalar Python y pip
-Asegúrate de tener Python instalado. Si no lo tienes, descárgalo de [aquí](https://www.python.org/downloads/).
-
-#### 1.2. Instalar MySQL
-Puedes descargar MySQL desde [aquí](https://dev.mysql.com/downloads/installer/).
-
-#### 1.3. Crear un entorno virtual (opcional pero recomendado)
-En la carpeta del proyecto, ejecuta:
+Para desactivar el entorno virtual:
 ```bash
-python -m venv venv
-source venv/bin/activate    # En Linux/Mac
-venv\Scripts\activate       # En Windows
+deactivate
+```
 
+### Paso 3: Instalar Flask
+Con el entorno virtual activo, instala Flask:
+```bash
+pip install flask
+```
 
-2. Crear la base de datos y la tabla
-2.1. Accede a MySQL y crea la base de datos:
-    CREATE DATABASE empleados_db;
-    USE empleados_db;
+### Paso 4: Instalar el conector MySQL para Python
+Instala el driver necesario para conectar Python con MySQL:
+```bash
+pip install mysql-connector-python
+```
 
-2.2. Crear la tabla de empleados:
-CREATE TABLE IF NOT EXISTS `tbl_empleados` (
-  `id_empleado` int NOT NULL AUTO_INCREMENT,
-  `nombre_empleado` varchar(50) DEFAULT NULL,
-  `apellido_empleado` varchar(50) DEFAULT NULL,
-  `sexo_empleado` int DEFAULT NULL,
-  `telefono_empleado` varchar(50) DEFAULT NULL,
-  `email_empleado` varchar(50) DEFAULT NULL,
-  `profesion_empleado` varchar(50) DEFAULT NULL,
-  `foto_empleado` mediumtext,
-  `salario_empleado` bigint DEFAULT NULL,
-  `fecha_registro` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id_empleado`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+### Paso 5: Listar los paquetes instalados
+Para ver los paquetes instalados en tu entorno:
+```bash
+pip list
+```
 
-2. Config/database.py
+### Generar el archivo `requirements.txt`
+Este archivo contendrá todas las dependencias del proyecto:
+```bash
+pip freeze > requirements.txt
+```
 
-Aquí configuramos la conexión a la base de datos MySQL.
+### Paso 6: Instalar dependencias desde `requirements.txt`
+Para instalar todas las dependencias necesarias:
+```bash
+pip install -r requirements.txt
+```
 
-    import mysql.connector
+---
 
-    def obtener_conexion():
-        conexion = mysql.connector.connect(
-            host='localhost',
-            user='root',
-            password='password',  # Cambia tu contraseña
-            database='empleados_db'
-        )
-        return conexion
+¡Ahora estás listo para iniciar el desarrollo del proyecto CRUD con Python y Flask! 🎉
 
-1. app.py
-    Aquí centralizamos todas las rutas y usamos controladores para mantener la lógica separada.
+## Crear la Estructura de un Proyecto Flask 🚀
 
-3. Configura el proyecto Flask
-3.1. Instalar Flask y otras dependencias necesarias:
+Flask es un popular microframework de Python que permite construir y ejecutar aplicaciones web de forma sencilla. Al ser un microframework, proporciona lo esencial para empezar, pero es lo suficientemente flexible como para que puedas agregar más funcionalidades según tus necesidades.
+Estructura Básica de un Proyecto Flask
 
-    pip install flask flask-mysql-connector
+Flask no impone una estructura de carpetas estricta, lo que te da la libertad de organizar tu proyecto como prefieras. Sin embargo, hay dos carpetas clave que Flask espera encontrar:
 
-3. Controllers/empleado_controller.py
+1. Carpeta static
 
-Controlador que maneja toda la lógica relacionada con los empleados (CRUD).
+En esta carpeta se almacenan todos los archivos estáticos de tu aplicación, tales como:
 
-4. Routers/empleado_routes.py
+  - Imágenes
+  - Hojas de estilo (CSS)
+  - Scripts JavaScript (JS)
+  - Otros activos como fuentes o archivos descargables
+- Ejemplo de la carpeta:
 
-Archivo que se encarga de definir las rutas específicas para empleados.
+    /static
+      /css
+      /js
+      /images
 
-5. Vistas (templates/empleado/)
-add.html - Formulario para agregar un empleado
+2. Carpeta templates
 
+Esta carpeta contendrá todos los archivos HTML que forman parte de tu aplicación. Flask utilizará estos archivos para renderizar vistas y devolver contenido dinámico.
 
-3.2. Estructura del proyecto:
+Ejemplo de la carpeta:
 
-    flask_crud_empleados/
-    │
-    ├── app.py                      # Archivo principal para iniciar la app
-    ├── Config/                     # Configuraciones del proyecto
-    │   └── database.py             # Configuración de la conexión con la base de datos
-    ├── Controllers/                # Funciones principales del proyecto
-    │   └── empleado_controller.py  # Lógica de CRUD para empleados
-    ├── Routers/                    # Rutas de la aplicación
-    │   └── empleado_routes.py      # Rutas relacionadas con los empleados
-    ├── templates/                  # Vistas del proyecto
-    │   ├── public/                 # Vistas públicas
-    │   │   └── view/               # Otras vistas públicas
-    │   └── empleado/               # Vistas específicas para empleados
-    │       ├── add.html
-    │       ├── index.html
-    │       ├── update.html
-    │       └── view.html
-    ├── static/                     # Archivos estáticos (CSS, JS, imágenes, etc.)
-    └── README.md
+  /templates
+      index.html
+      about.html
+      layout.html
 
+Estructura Básica Recomendada
 
-4. Escribe el código
-4.1. Código de app.py:
+Un ejemplo de estructura para un proyecto Flask simple podría verse así:
 
-from flask import Flask, render_template, request, redirect, url_for
-import mysql.connector
+  /mi_proyecto_flask
+    /static
+        /css
+        /js
+        /images
+    /templates
+        base.html
+        index.html
+    app.py
+    config.py
+    requirements.txt
 
-app = Flask(__name__)
+Explicación:
 
-# Configuración de la conexión a la base de datos
-db_config = {
-    'user': 'root',
-    'password': 'password',  # Cambia esta contraseña
-    'host': 'localhost',
-    'database': 'empleados_db'
-}
-
-def obtener_conexion():
-    return mysql.connector.connect(**db_config)
-
-# Ruta principal: Lista de empleados
-@app.route('/')
-def index():
-    conexion = obtener_conexion()
-    cursor = conexion.cursor(dictionary=True)
-    cursor.execute("SELECT * FROM tbl_empleados")
-    empleados = cursor.fetchall()
-    conexion.close()
-    return render_template('index.html', empleados=empleados)
-
-# Ruta para crear un nuevo empleado
-@app.route('/crear', methods=['POST'])
-def crear():
-    nombre = request.form['nombre']
-    apellido = request.form['apellido']
-    sexo = request.form['sexo']
-    telefono = request.form['telefono']
-    email = request.form['email']
-    profesion = request.form['profesion']
-    salario = request.form['salario']
-    
-    conexion = obtener_conexion()
-    cursor = conexion.cursor()
-    cursor.execute("""
-        INSERT INTO tbl_empleados (nombre_empleado, apellido_empleado, sexo_empleado, telefono_empleado, email_empleado, profesion_empleado, salario_empleado)
-        VALUES (%s, %s, %s, %s, %s, %s, %s)
-    """, (nombre, apellido, sexo, telefono, email, profesion, salario))
-    conexion.commit()
-    conexion.close()
-    
-    return redirect(url_for('index'))
-
-# Otras rutas como actualizar y eliminar irán aquí...
-
-if __name__ == '__main__':
-    app.run(debug=True)
-
-
-4.2. Código de templates/index.html
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CRUD Empleados</title>
-</head>
-<body>
-    <h1>Lista de Empleados</h1>
-    <table>
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Nombre</th>
-                <th>Apellido</th>
-                <th>Sexo</th>
-                <th>Teléfono</th>
-                <th>Email</th>
-                <th>Profesión</th>
-                <th>Salario</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for empleado in empleados %}
-            <tr>
-                <td>{{ empleado.id_empleado }}</td>
-                <td>{{ empleado.nombre_empleado }}</td>
-                <td>{{ empleado.apellido_empleado }}</td>
-                <td>{{ empleado.sexo_empleado }}</td>
-                <td>{{ empleado.telefono_empleado }}</td>
-                <td>{{ empleado.email_empleado }}</td>
-                <td>{{ empleado.profesion_empleado }}</td>
-                <td>{{ empleado.salario_empleado }}</td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-    <h2>Agregar nuevo empleado</h2>
-    <form action="/crear" method="POST">
-        <input type="text" name="nombre" placeholder="Nombre" required>
-        <input type="text" name="apellido" placeholder="Apellido" required>
-        <input type="text" name="sexo" placeholder="Sexo" required>
-        <input type="text" name="telefono" placeholder="Teléfono" required>
-        <input type="email" name="email" placeholder="Email" required>
-        <input type="text" name="profesion" placeholder="Profesión" required>
-        <input type="number" name="salario" placeholder="Salario" required>
-        <button type="submit">Agregar</button>
-    </form>
-</body>
-</html>
-
-
-5. Ejecutar la aplicación
-
-Para ejecutar la aplicación, ejecuta el siguiente comando en la terminal dentro de la carpeta del proyecto:
-
-python app.py
-
-Luego, abre tu navegador y accede a http://localhost:5000 para ver la lista de empleados.
-
-
-
-1. Instalar Flask y otros paquetes necesarios:
-    pip install flask
-    pip install flask-mysql-connector
-
-2. Crear el archivo requirements.txt:
-
-Para generar automáticamente el archivo requirements.txt con las dependencias instaladas en tu entorno, utiliza el siguiente comando:
-
-    pip freeze > requirements.txt
-Esto creará un archivo requirements.txt con todas las dependencias del proyecto.
-Ahora, cualquier persona puede instalar las mismas dependencias usando:
-
-    pip install -r requirements.txt
-
+    app.py: El archivo principal de la aplicación donde defines las rutas y lógica principal de tu aplicación Flask.
+    config.py: Archivo opcional para configuraciones de la aplicación (bases de datos, claves secretas, etc.).
+    requirements.txt: Archivo que contiene todas las dependencias que necesita el

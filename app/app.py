@@ -1,24 +1,16 @@
 from flask import Flask, render_template, request, redirect, url_for
 from Controllers.empleado_controller import listar_empleados, agregar_empleado, actualizar_empleado, eliminar_empleado
 
-app = Flask(__name__)
+# Declarando nombre de la aplicación e inicializando, crear la aplicación Flask
+# Creando una instancia de la aplicación Flask
+# Creando una app instanciando la clase Flask (automáticamente el nombre de la app)
+app = Flask(__name__,)
+app.secret_key = '97110c78ae51a45af397befe'
 
-# Rutas principales
-@app.route('/')
-def index():
-    return listar_empleados()
+# Rutas
+configurar_rutas(app)
 
-@app.route('/crear', methods=['GET', 'POST'])
-def crear():
-    return agregar_empleado()
 
-@app.route('/editar/<int:id>', methods=['GET', 'POST'])
-def editar(id):
-    return actualizar_empleado(id)
-
-@app.route('/eliminar/<int:id>')
-def eliminar(id):
-    return eliminar_empleado(id)
-
+# Inicializando app
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run()
