@@ -2,14 +2,15 @@
 import mysql.connector
 
 def obtener_conexion():
-    conexion = mysql.connector.connect(
-        host='localhost',
-        user='root',
-        password='password',  # Cambia tu contraseña
-        database='empleados_db'
-    )
-    if conexion:
+    try:
+        conexionBD = mysql.connector.connect(
+            host='localhost',
+            user='root',
+            password='password',
+            database='empleados_db'
+        )
         print("Conexión exitosa")
-    else:
-        print("Error en la conexión a la base de datos")
-    return conexion
+        return conexionBD
+    except mysql.connector.Error as err:
+        print("Error al conectar a la base de datos:", err)
+        return None

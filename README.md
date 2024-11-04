@@ -2,6 +2,9 @@
 
 En este proyecto, aprenderás a desarrollar un sistema **CRUD** utilizando Python 🐍, Flask y MySQL. Esta guía te llevará paso a paso en la creación de aplicaciones interactivas, con la capacidad de gestionar empleados de manera eficiente.
 
+Estructura de carpetas: Ya tienes carpetas organizadas para templates, static, Routers, Controllers y Config, lo cual es excelente. Esto hace que el proyecto sea más modular y fácil de escalar.
+
+
 ## Funcionalidades Principales:
 
 - **Crear**: Añadir nuevos empleados.
