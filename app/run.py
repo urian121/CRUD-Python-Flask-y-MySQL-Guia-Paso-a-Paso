@@ -17,4 +17,4 @@ import Controllers as app_controllers
 # # Ejecutando el objeto Flask, Arrancando mi Aplicacion de Flask
 if __name__ == '__main__':
     # Método que inicia la app con la dirección, puertos y modo de argumentos
-    app.run('127.0.0.1', port=5000, debug=True)
+    app.run('127.0.0.1', port=5600, debug=True)

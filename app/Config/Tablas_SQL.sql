@@ -1,15 +1,15 @@
 
-/** TABLA CURSOS **/
-CREATE TABLE `tbl_cursos` (
-  `id_curso` int NOT NULL AUTO_INCREMENT,
+/** TABLA GRADOS **/
+CREATE TABLE `tbl_grados` (
+  `id_grado` int NOT NULL AUTO_INCREMENT,
   `grado` varchar(150) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `jornada` varchar(250) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `seccion` varchar(250) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id_curso`)
+  PRIMARY KEY (`id_grado`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
-INSERT INTO `tbl_cursos` (`grado`, `jornada`, `seccion`) VALUES
+INSERT INTO `tbl_grados` (`grado`, `jornada`, `seccion`) VALUES
 ('Primero', 'Mañana', 'A'),
 ('Primero', 'Mañana', 'B'),
 ('Segundo', 'Mañana', 'A'),
@@ -63,14 +63,14 @@ CREATE TABLE `tbl_estudiantes` (
   `direccion_estudiante` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `perfil_estudiante` varchar(100) DEFAULT NULL,
   `estado_estudiante` int DEFAULT '1',
-  `id_curso` int DEFAULT NULL,
+  `id_grado` int DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id_estudiante`),
-  KEY `fk_estudiante_curso` (`id_curso`),
-  CONSTRAINT `fk_estudiante_curso` FOREIGN KEY (`id_curso`) REFERENCES `tbl_cursos` (`id_curso`) ON DELETE SET NULL ON UPDATE SET NULL
+  KEY `fk_estudiante_grado` (`id_grado`),
+  CONSTRAINT `fk_estudiante_grado` FOREIGN KEY (`id_grado`) REFERENCES `tbl_grados` (`id_grado`) ON DELETE SET NULL ON UPDATE SET NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
-INSERT INTO `tbl_estudiantes` (`nombre_estudiante`, `apellido_estudiante`, `email_estudiante`, `fecha_nacimiento`, `direccion_estudiante`, `perfil_estudiante`, `estado_estudiante`, `id_curso`) VALUES
+INSERT INTO `tbl_estudiantes` (`nombre_estudiante`, `apellido_estudiante`, `email_estudiante`, `fecha_nacimiento`, `direccion_estudiante`, `perfil_estudiante`, `estado_estudiante`, `id_grado`) VALUES
 ('Juan', 'Pérez', 'juan.perez@example.com', '2008-03-15', 'Calle 1 #23-45', 'Estudiante', 1, 1),
 ('María', 'González', 'maria.gonzalez@example.com', '2009-07-20', 'Calle 2 #56-78', 'Estudiante', 1, 1),
 ('Pedro', 'Sánchez', 'pedro.sanchez@example.com', '2008-05-30', 'Calle 3 #89-01', 'Estudiante', 1, 2),
@@ -123,17 +123,17 @@ CREATE TABLE `tbl_profesores_materias` (
   `id_asignacion` int NOT NULL AUTO_INCREMENT,
   `id_profesor` int DEFAULT NULL,
   `id_materia` int DEFAULT NULL,
-  `id_curso` int DEFAULT NULL,
+  `id_grado` int DEFAULT NULL,
   PRIMARY KEY (`id_asignacion`),
   KEY `fk_profesor` (`id_profesor`),
   KEY `fk_materia` (`id_materia`),
-  KEY `fk_curso` (`id_curso`),
+  KEY `fk_grado` (`id_grado`),
   CONSTRAINT `fk_profesor` FOREIGN KEY (`id_profesor`) REFERENCES `tbl_profesores` (`id_profesor`) ON DELETE SET NULL ON UPDATE SET NULL,
   CONSTRAINT `fk_materia` FOREIGN KEY (`id_materia`) REFERENCES `tbl_materias` (`id_materia`) ON DELETE SET NULL ON UPDATE SET NULL,
-  CONSTRAINT `fk_curso` FOREIGN KEY (`id_curso`) REFERENCES `tbl_cursos` (`id_curso`) ON DELETE SET NULL ON UPDATE SET NULL
+  CONSTRAINT `fk_grado` FOREIGN KEY (`id_grado`) REFERENCES `tbl_grados` (`id_grado`) ON DELETE SET NULL ON UPDATE SET NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
-INSERT INTO `tbl_profesores_materias` (`id_profesor`, `id_materia`, `id_curso`) VALUES
+INSERT INTO `tbl_profesores_materias` (`id_profesor`, `id_materia`, `id_grado`) VALUES
 (1, 1, 1),
 (1, 2, 2),
 (2, 3, 1),

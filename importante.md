@@ -22,3 +22,36 @@ python
 import Routers
 
 Así, cualquier módulo en Routers estará disponible automáticamente gracias a __init__.py.
+
+
+
+
+
+
+
+
+
+
+
+***********
+En Flask, al usar render_template, necesitas especificar el nombre del parámetro si quieres accederlo en la plantilla. Entonces, esto:
+
+python
+
+return render_template('grados/index.html', grados=grados)
+
+funcionará, y en la plantilla podrías acceder a grados directamente:
+
+html
+
+{% for grado in grados %}
+    <p>{{ grado.nombre_del_campo }}</p>
+{% endfor %}
+
+Si intentas enviarlo sin especificar el nombre, así:
+
+python
+
+return render_template('grados/index.html', grados)
+
+te dará un error, porque Flask espera pares clave-valor al pasar datos a las plantillas. Entonces, siempre necesitas hacer algo como data=grados o grados=grados para que la plantilla lo reciba.

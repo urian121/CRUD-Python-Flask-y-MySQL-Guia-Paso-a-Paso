@@ -1,16 +1,17 @@
-from flask import render_template
-from app import app
+from flask import redirect, render_template, url_for
+from app import app # Importando la aplicación Flask
 
 
 @app.route('/')
 def inicio():
-    return render_template('index.html')
-
-@app.route('/cursos/')
-def cursos():
-    return render_template('cursos/index.html')
+    return render_template('base.html')
 
 
+# Redireccionando cuando la página no existe
+@app.errorhandler(404)
+def not_found(error):
+        return redirect(url_for('inicio'))
+    
 @app.route('/materias/')
 def materias():
     return render_template('materias/index.html')
